@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { 
   Scan, 
-  ArrowLeft, 
   Sparkles, 
   CheckCircle2, 
   AlertCircle, 
@@ -111,13 +110,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Direct Open Button */}
-            <div className="qr-action-area">
-              <button className="btn-open-form-pulse" onClick={openFormDirectly}>
-                <span>فتح استمارة الحجز الآن</span>
-                <ArrowLeft size={20} />
-              </button>
-            </div>
 
             {/* Footer */}
             <div className="qr-card-footer">

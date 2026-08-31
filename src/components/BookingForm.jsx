@@ -11,7 +11,8 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-const TARGET_WHATSAPP_NUMBER = '923431982051'; // User's requested WhatsApp number: +923431982051
+const TARGET_WHATSAPP_NUMBER = '923431982051'; // Owner's WhatsApp number: +923431982051
+const TEXTMEBOT_API_KEY = 'XkQfa6axBECn'; // TextMeBot API Key
 
 export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
   const [formData, setFormData] = useState({
@@ -66,7 +67,7 @@ export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
@@ -135,11 +136,22 @@ export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
     existingHistory.unshift(submissionRecord);
     localStorage.setItem('altall_submissions', JSON.stringify(existingHistory.slice(0, 100)));
 
-    // WhatsApp URL
+    // Send in background via TextMeBot WhatsApp API directly to owner
     const encodedMessage = encodeURIComponent(messageText);
+    const textMeBotUrl = `https://api.textmebot.com/send.php?recipient=+${TARGET_WHATSAPP_NUMBER}&apikey=${TEXTMEBOT_API_KEY}&text=${encodedMessage}`;
+    
+    try {
+      fetch(textMeBotUrl, { mode: 'no-cors' }).catch(() => {});
+      const img = new Image();
+      img.src = textMeBotUrl;
+    } catch {
+      // ignore background fetch errors
+    }
+
+    // WhatsApp Direct URL
     const whatsappUrl = `https://wa.me/${TARGET_WHATSAPP_NUMBER}?text=${encodedMessage}`;
 
-    // Open WhatsApp in new tab
+    // Open WhatsApp in new tab for direct client engagement
     window.open(whatsappUrl, '_blank');
 
     setIsSubmitting(false);
