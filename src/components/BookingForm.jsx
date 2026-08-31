@@ -148,21 +148,23 @@ export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
       // ignore background fetch errors
     }
 
-    // WhatsApp Direct URL
-    const whatsappUrl = `https://wa.me/${TARGET_WHATSAPP_NUMBER}?text=${encodedMessage}`;
-
-    // Open WhatsApp in new tab for direct client engagement
-    window.open(whatsappUrl, '_blank');
-
     setIsSubmitting(false);
 
-    // Trigger modal for user confirmation & preview
+    // Reset form fields
+    setFormData({
+      custName: '',
+      custPhone1: '',
+      custPhone2: '',
+      custAddress: '',
+      appointmentDate: '',
+      notes: '',
+    });
+
+    // Trigger modal for user confirmation
     if (onFormSubmitSuccess) {
       onFormSubmitSuccess({
         record: submissionRecord,
-        whatsappUrl,
         messageText,
-        targetNumber: '+92 343 1982051'
       });
     }
   };
@@ -393,16 +395,7 @@ export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
             </div>
           </div>
 
-          {/* WhatsApp Destination Info Banner */}
-          <div className="whatsapp-target-badge">
-            <MessageCircle className="wa-icon" size={22} />
-            <div className="wa-target-text">
-              <span>سيتم إرسال الطلب مباشرة إلى واتساب:</span>
-              <strong>+92 343 1982051</strong>
-            </div>
-          </div>
-
-          {/* Submit Button with WhatsApp Animation */}
+          {/* Submit Button */}
           <div className="submit-container">
             <button 
               type="submit" 
@@ -411,10 +404,9 @@ export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
               disabled={isSubmitting}
             >
               <span className="btn-icon">
-                <Send size={24} />
+                <Send size={22} />
               </span>
-              <span className="btn-text">إرسال الطلب عبر الواتساب</span>
-              <span className="btn-subtext">Send directly via WhatsApp (+923431982051)</span>
+              <span className="btn-text">{isSubmitting ? 'جاري إرسال الطلب...' : 'إرسال طلب حجز المقاسات'}</span>
             </button>
           </div>
 
