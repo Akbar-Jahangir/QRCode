@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="100%" height="100%">
+  <defs>
+    <linearGradient id="atGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#144d82" />
+      <stop offset="100%" stop-color="#0e3158" />
+    </linearGradient>
+  </defs>
+
+  <!-- Border Box matching screenshot -->
+  <rect x="4" y="4" width="192" height="152" rx="8" fill="#ffffff" stroke="#9bb1c9" stroke-width="2"/>
+
+  <!-- Logo Graphics: AT monogram -->
+  <g transform="translate(45, 18)">
+    <!-- Letter A -->
+    <path d="M 28 65 L 52 10 L 68 10 L 44 65 Z" fill="#144d82" />
+    
+    <!-- Letter T with dynamic crossbar -->
+    <path d="M 45 10 L 105 10 L 101 22 L 78 22 L 60 65 L 46 65 L 64 22 L 40 22 Z" fill="#144d82" />
+    
+    <!-- Accent Swoosh across A & T -->
+    <path d="M 12 40 L 98 28 L 94 36 L 10 48 Z" fill="#1d6fad" opacity="0.9"/>
+  </g>
+
+  <!-- Brand Name English -->
+  <text x="100" y="112" font-family="'Segoe UI', Arial, sans-serif" font-size="21" font-weight="700" fill="#144d82" text-anchor="middle" letter-spacing="0.5">Al Tall</text>
+  
+  <!-- Subtle divider line -->
+  <line x1="40" y1="124" x2="160" y2="124" stroke="#d5e1ee" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Arabic Subtitle / Status -->
+  <text x="100" y="142" font-family="'Cairo', 'Tajawal', Tahoma, sans-serif" font-size="13" font-weight="600" fill="#607d9b" text-anchor="middle">شركة التل</text>
+</svg>
