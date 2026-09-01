@@ -116,14 +116,12 @@ body {
   justify-content: space-between;
   align-items: flex-start;
   gap: 1rem;
-  direction: ltr; /* Force: logo stays LEFT, text stays RIGHT */
 }
 
 .flyer-company-text {
   flex: 1;
   text-align: right;
   padding-top: 0.4rem;
-  direction: rtl; /* Keep Arabic text reading direction correct */
 }
 
 .flyer-title-ar {
