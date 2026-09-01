@@ -105,7 +105,6 @@ export default function App() {
               <div className="scan-instruction-box">
                 <Scan size={18} className="scan-anim-icon" />
                 <p>امسح رمز QR بكاميرا الهاتف لفتح الاستمارة</p>
-                <small className="tap-direct-hint">(أو اضغط مباشرة هنا لفتحها)</small>
               </div>
             </div>
 
