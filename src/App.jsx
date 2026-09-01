@@ -3,9 +3,8 @@ import { QRCodeSVG } from 'qrcode.react';
 import { 
   Scan, 
   Sparkles, 
-  CheckCircle2, 
   AlertCircle, 
-  QrCode, 
+  CheckCircle2,
   Phone, 
   MapPin 
 } from 'lucide-react';
@@ -68,7 +67,7 @@ export default function App() {
             {/* Header */}
             <div className="qr-card-header">
               <div className="qr-logo-frame">
-                <img src="/logo.svg" alt="Al Tall Logo" className="qr-card-logo" />
+                <img src="/altal_logo_clean.png" alt="Al Tall Logo" className="qr-card-logo" />
               </div>
               <h1 className="qr-company-name">شركة التل الدولية للتجارة العامة</h1>
               <div className="qr-badge-pill">
@@ -93,11 +92,11 @@ export default function App() {
                   level="H"
                   includeMargin={true}
                   imageSettings={{
-                    src: '/logo.svg',
+                    src: '/altal_logo_clean.png',
                     x: undefined,
                     y: undefined,
-                    height: 46,
-                    width: 46,
+                    height: 48,
+                    width: 48,
                     excavate: true,
                   }}
                 />
@@ -130,20 +129,7 @@ export default function App() {
       {/* ================= STAGE 2: THE FORM (AFTER SCANNING QR) ================= */}
       {currentScreen === 'form' && (
         <div className="form-active-screen">
-          
-          {/* Simple Top Bar to allow returning to QR code */}
-          <div className="form-top-bar">
-            <button className="btn-back-qr" onClick={backToQr}>
-              <QrCode size={18} />
-              <span>عرض رمز QR</span>
-            </button>
-            <div className="top-status-tag">
-              <CheckCircle2 size={16} />
-              <span>تم مسح الرمز بنجاح</span>
-            </div>
-          </div>
-
-          {/* Main Booking Form matching screenshot */}
+          {/* Main Booking Form - no top bar, opens directly after QR scan */}
           <BookingForm 
             onFormSubmitSuccess={handleFormSuccess}
             onNavigate={(screen) => setCurrentScreen(screen === 'qr-generator' ? 'qr' : screen)}

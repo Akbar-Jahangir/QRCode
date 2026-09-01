@@ -1,44 +1,28 @@
 /* ==========================================================================
-   AL TALL INTERNATIONAL GENERAL TRADING CO. - DESIGN SYSTEM & STYLES
+   AL TALL INTERNATIONAL GENERAL TRADING CO. - FLYER & EXACT DESIGN SYSTEM
    ========================================================================== */
 
 :root {
-  /* Brand Color Palette */
-  --primary-color: #144d82;       /* Deep Al Tall Navy */
-  --primary-dark: #0d3459;
-  --primary-light: #206bb3;
+  --primary-navy: #144d82;
+  --primary-black: #111111;
   --accent-gold: #c29d47;
-  --whatsapp-green: #25d366;     /* Official WhatsApp Green */
+  --whatsapp-green: #25d366;
   --whatsapp-dark: #1ea952;
-  --whatsapp-glow: rgba(37, 211, 102, 0.28);
-  
-  /* Neutral Palette */
-  --bg-gradient: linear-gradient(135deg, #f0f4f9 0%, #e5edf5 50%, #d8e3ef 100%);
-  --card-bg: #ffffff;
-  --border-light: #d8e2ec;
-  --border-focus: #144d82;
-  --text-main: #1e293b;
-  --text-muted: #64748b;
-  --text-dark: #0f172a;
-  --grey-bar-bg: #eceff2;
-  
-  /* Shadow & Effects */
-  --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 10px 25px -5px rgba(20, 77, 130, 0.08), 0 8px 10px -6px rgba(20, 77, 130, 0.04);
-  --shadow-lg: 0 20px 35px -10px rgba(20, 77, 130, 0.15), 0 12px 18px -8px rgba(0, 0, 0, 0.08);
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  --pill-border: #9ca3af;
+  --pill-bg: #ffffff;
+  --text-dark: #111827;
+  --text-muted: #4b5563;
   --radius-pill: 9999px;
-  --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-card: 20px;
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Global Reset & Base */
+/* Base Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Cairo', 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Cairo', 'Tajawal', 'Amiri', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -48,12 +32,12 @@ html {
 }
 
 body {
-  background: var(--bg-gradient);
-  color: var(--text-main);
+  background: #2a343f;
+  color: var(--text-dark);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  line-height: 1.6;
+  line-height: 1.5;
   direction: rtl;
 }
 
@@ -67,11 +51,463 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 1.5rem 1rem 2.5rem;
+  padding: 1rem 0.75rem 2rem;
+  background: radial-gradient(circle at center top, #3a4756 0%, #1c242c 100%);
 }
 
 /* ==========================================================================
-   STAGE 1: CLEAN QR LANDING SCREEN (FIRST ONLY QR CODE)
+   FLYER CONTAINER (EXACT REPLICA OF THE IMAGE)
+   ========================================================================== */
+.flyer-page-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.flyer-container {
+  position: relative;
+  width: 100%;
+  max-width: 580px;
+  background: #f8f9fa url('/form_bg.jpg') no-repeat center center;
+  background-size: cover;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.55), 0 0 0 1.5px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Very light frosted overlay - keeps architecture visible while ensuring readability */
+.flyer-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.78) 0%,
+    rgba(255, 255, 255, 0.58) 25%,
+    rgba(255, 255, 255, 0.45) 55%,
+    rgba(255, 255, 255, 0.70) 80%,
+    rgba(255, 255, 255, 0.82) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.flyer-header,
+.flyer-form-body,
+.flyer-footer-card {
+  position: relative;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   FLYER HEADER
+   ========================================================================== */
+.flyer-header {
+  padding: 1.8rem 1.8rem 0.5rem;
+}
+
+.flyer-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  direction: ltr; /* Force: logo stays LEFT, text stays RIGHT */
+}
+
+.flyer-company-text {
+  flex: 1;
+  text-align: right;
+  padding-top: 0.4rem;
+  direction: rtl; /* Keep Arabic text reading direction correct */
+}
+
+.flyer-title-ar {
+  font-family: 'Amiri', 'Cairo', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000000;
+  line-height: 1.25;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.flyer-subtitle-ar {
+  font-family: 'Amiri', 'Cairo', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #111111;
+  line-height: 1.3;
+  margin-top: 0.15rem;
+}
+
+.flyer-logo-holder {
+  width: 110px;
+  height: 90px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flyer-official-logo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+/* Title Banner: حجز موعد رفع مقاسات */
+.flyer-title-banner {
+  background: rgba(255, 255, 255, 0.95);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+  padding: 0.75rem 1rem;
+  margin: 1.2rem -1.8rem 0;
+  text-align: center;
+}
+
+.flyer-banner-heading {
+  font-family: 'Amiri', 'Cairo', serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #000000;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   FLYER FORM BODY
+   ========================================================================== */
+.flyer-form-body {
+  padding: 1.4rem 1.8rem 1.2rem;
+}
+
+/* Section: Customer Info (بيانات العميل -:) */
+.flyer-section-block {
+  margin-bottom: 1.4rem;
+}
+
+.flyer-section-header {
+  margin-bottom: 0.75rem;
+  text-align: right;
+}
+
+.flyer-section-title {
+  font-family: 'Cairo', 'Tajawal', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #000000;
+}
+
+/* Fields & Pills */
+.flyer-field-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.flyer-field-row.align-top {
+  align-items: flex-start;
+}
+
+.flyer-field-label {
+  width: 70px;
+  text-align: right;
+  font-family: 'Amiri', 'Cairo', serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #000000;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.flyer-input-pill-wrapper {
+  flex: 1;
+}
+
+.flyer-pill-input {
+  width: 100%;
+  background: #ffffff;
+  border: 1.6px solid var(--pill-border);
+  border-radius: 9999px;
+  padding: 0.65rem 1.25rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #000000;
+  outline: none;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: var(--transition);
+  text-align: right;
+}
+
+.flyer-pill-input:focus {
+  border-color: #000000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+  background: #ffffff;
+}
+
+.flyer-pill-input.has-error,
+.flyer-address-input.has-error {
+  border-color: #ef4444;
+  background: #fffafa;
+}
+
+/* Phone Dual Pills */
+.flyer-phone-dual-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.flyer-pill-input.phone-input {
+  font-family: 'Cairo', 'Segoe UI', Arial, sans-serif;
+  font-size: 0.95rem;
+  padding: 0.65rem 1rem;
+}
+
+/* Address Box */
+.flyer-address-wrapper {
+  flex: 1;
+}
+
+.flyer-address-input {
+  width: 100%;
+  background: #ffffff;
+  border: 1.6px solid var(--pill-border);
+  border-radius: 18px;
+  padding: 0.65rem 1.25rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #000000;
+  outline: none;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: var(--transition);
+  resize: vertical;
+  min-height: 68px;
+  text-align: right;
+}
+
+.flyer-address-input:focus {
+  border-color: #000000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+}
+
+/* ==========================================================================
+   SERVICES SECTION (الخدمات المطلوبة)
+   ========================================================================== */
+.flyer-services-block {
+  margin-top: 1.2rem;
+  text-align: center;
+}
+
+.flyer-services-title {
+  font-family: 'Cairo', 'Tajawal', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #000000;
+  margin-bottom: 0.9rem;
+}
+
+/* Row 1: 4 Services (درج شرفي, درج خدمي, بلكونات, مظلات) */
+.flyer-services-row-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.8rem;
+}
+
+/* Row 2: 1 Service Centered (شاور بوكس) */
+.flyer-services-row-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+/* Checkbox item */
+.flyer-checkbox-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.25rem 0.4rem;
+  border-radius: 8px;
+  transition: var(--transition);
+}
+
+.flyer-checkbox-item:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.flyer-checkbox-item input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Square checkbox matching screenshot */
+.flyer-square-check {
+  width: 26px;
+  height: 26px;
+  background: #ffffff;
+  border: 1.8px solid #4b5563;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.flyer-checkbox-item.is-selected .flyer-square-check {
+  background: #111111;
+  border-color: #000000;
+  color: #ffffff;
+}
+
+.flyer-check-text {
+  font-family: 'Amiri', 'Cairo', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #000000;
+}
+
+/* Notes Field */
+.flyer-notes-wrap {
+  margin-top: 0.85rem;
+}
+
+.flyer-notes-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.4px solid #cbd5e1;
+  border-radius: 9999px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #334155;
+  outline: none;
+  text-align: right;
+  transition: var(--transition);
+}
+
+.flyer-notes-input:focus {
+  background: #ffffff;
+  border-color: #000000;
+}
+
+/* ==========================================================================
+   SUBMIT BUTTON
+   ========================================================================== */
+.flyer-submit-area {
+  margin-top: 1.4rem;
+}
+
+.flyer-whatsapp-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #25d366 0%, #1ea952 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 16px;
+  padding: 0.95rem 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+  transition: var(--transition);
+}
+
+.flyer-whatsapp-btn:hover {
+  background: linear-gradient(135deg, #28e06d 0%, #22b85a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.5);
+}
+
+.flyer-whatsapp-btn:active {
+  transform: translateY(0);
+}
+
+.flyer-btn-icon {
+  animation: pulseIcon 2s infinite;
+}
+
+@keyframes pulseIcon {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* ==========================================================================
+   FOOTER CONTACT CARD (EXACT FLOATING REPLICA)
+   ========================================================================== */
+.flyer-footer-card {
+  margin: 1rem 1.8rem 1.8rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1.8px solid #cbd5e1;
+  border-radius: 20px;
+  padding: 0.85rem 1.2rem;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.flyer-footer-address {
+  font-family: 'Amiri', 'Cairo', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #000000;
+  line-height: 1.3;
+  margin-bottom: 0.35rem;
+}
+
+.flyer-footer-phones {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #000000;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.flyer-tel-link {
+  color: #000000;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.flyer-tel-link:hover {
+  color: var(--primary-navy);
+  text-decoration: underline;
+}
+
+.flyer-tel-divider {
+  color: #64748b;
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   QR SCREEN STYLING & MODALS
    ========================================================================== */
 .qr-landing-screen {
   flex: 1;
@@ -84,11 +520,11 @@ body {
 .qr-card-container {
   background: #ffffff;
   border-radius: 24px;
-  max-width: 460px;
+  max-width: 480px;
   width: 100%;
   padding: 2.2rem 2rem 1.8rem;
-  box-shadow: 0 20px 45px -10px rgba(20, 77, 130, 0.18), 0 10px 20px -5px rgba(0, 0, 0, 0.06);
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.9);
   text-align: center;
   position: relative;
 }
@@ -98,8 +534,8 @@ body {
 }
 
 .qr-logo-frame {
-  width: 100px;
-  height: 80px;
+  width: 120px;
+  height: 90px;
   margin: 0 auto 0.75rem;
 }
 
@@ -110,9 +546,10 @@ body {
 }
 
 .qr-company-name {
-  color: var(--primary-color);
-  font-size: 1.45rem;
-  font-weight: 800;
+  font-family: 'Amiri', 'Cairo', serif;
+  color: #000000;
+  font-size: 1.7rem;
+  font-weight: 700;
   margin-bottom: 0.4rem;
 }
 
@@ -121,18 +558,13 @@ body {
   align-items: center;
   gap: 0.4rem;
   background: #f1f5f9;
-  color: #334155;
-  padding: 0.3rem 0.85rem;
+  color: #1e293b;
+  padding: 0.35rem 1rem;
   border-radius: var(--radius-pill);
-  font-size: 0.88rem;
+  font-size: 0.95rem;
   font-weight: 700;
 }
 
-.qr-badge-pill svg {
-  color: var(--accent-gold);
-}
-
-/* Interactive QR Box with Scanner Frame Corners */
 .qr-code-interactive-card {
   position: relative;
   background: #ffffff;
@@ -141,14 +573,14 @@ body {
   padding: 1.5rem 1rem 1rem;
   cursor: pointer;
   transition: var(--transition);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   margin-bottom: 1.5rem;
 }
 
 .qr-code-interactive-card:hover {
   transform: translateY(-3px);
-  border-color: var(--primary-color);
-  box-shadow: 0 12px 28px rgba(20, 77, 130, 0.12);
+  border-color: #000000;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
 }
 
 .qr-svg-holder {
@@ -163,12 +595,11 @@ body {
   margin: 0 auto;
 }
 
-/* Scanner Corner Markers */
 .scan-target-corners .corner-bracket {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  border-color: var(--primary-color);
+  width: 22px;
+  height: 22px;
+  border-color: #000000;
   border-style: solid;
 }
 
@@ -207,56 +638,16 @@ body {
 }
 
 .scan-instruction-box p {
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #1e293b;
   margin-bottom: 0.15rem;
 }
 
-.scan-anim-icon {
-  color: var(--primary-color);
-  margin-bottom: 0.25rem;
-  animation: bounce 1.8s infinite;
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-
 .tap-direct-hint {
-  font-size: 0.8rem;
-  color: var(--primary-light);
+  font-size: 0.85rem;
+  color: #0284c7;
   font-weight: 600;
-}
-
-/* Action Button */
-.qr-action-area {
-  margin-bottom: 1.25rem;
-}
-
-.btn-open-form-pulse {
-  width: 100%;
-  background: var(--primary-color);
-  color: #ffffff;
-  border: none;
-  border-radius: 14px;
-  padding: 0.95rem 1.4rem;
-  font-size: 1.1rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  cursor: pointer;
-  transition: var(--transition);
-  box-shadow: 0 6px 18px rgba(20, 77, 130, 0.25);
-}
-
-.btn-open-form-pulse:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(20, 77, 130, 0.35);
 }
 
 .qr-card-footer {
@@ -265,7 +656,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  font-size: 0.82rem;
+  font-size: 0.88rem;
   color: #64748b;
 }
 
@@ -276,41 +667,34 @@ body {
   gap: 0.4rem;
 }
 
-/* ==========================================================================
-   STAGE 2: ACTIVE FORM SCREEN (SHOWN AFTER SCANNING)
-   ========================================================================== */
-.form-active-screen {
-  max-width: 680px;
-  margin: 0 auto;
-  width: 100%;
-  animation: fadeIn 0.3s ease-out;
-}
-
 .form-top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
+  max-width: 580px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .btn-back-qr {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  background: #ffffff;
-  border: 1.5px solid var(--border-light);
-  padding: 0.45rem 0.95rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid #cbd5e1;
+  padding: 0.45rem 1rem;
   border-radius: var(--radius-pill);
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  color: var(--primary-color);
+  color: #0f172a;
   cursor: pointer;
   transition: var(--transition);
 }
 
 .btn-back-qr:hover {
-  background: #f1f5f9;
-  border-color: var(--primary-color);
+  background: #ffffff;
+  border-color: #000000;
 }
 
 .top-status-tag {
@@ -327,308 +711,69 @@ body {
 }
 
 /* ==========================================================================
-   BOOKING FORM COMPONENT (EXACT SCREENSHOT REPLICA)
+   RESPONSIVENESS
    ========================================================================== */
-.form-device-container {
-  width: 100%;
-}
-
-.form-card {
-  background: var(--card-bg);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  overflow: hidden;
-}
-
-/* Form Header matching Screenshot */
-.form-header {
-  background: #ffffff;
-  padding-top: 1.5rem;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 0 2rem 1.2rem;
-  gap: 1rem;
-}
-
-.header-text-block {
-  flex: 1;
-}
-
-.company-title {
-  color: var(--primary-color);
-  font-size: 1.7rem;
-  font-weight: 800;
-  line-height: 1.3;
-  margin-bottom: 0.25rem;
-}
-
-.company-tagline {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.logo-box {
-  width: 96px;
-  height: 80px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.brand-logo {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-/* Grey Separator Bar from screenshot */
-.separator-bar {
-  background: var(--grey-bar-bg);
-  padding: 0.35rem 2rem;
-  border-top: 1px solid #dfe5ec;
-  border-bottom: 1px solid #dfe5ec;
-  text-align: left;
-}
-
-.separator-label {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #4b5563;
-  padding-left: 1.25rem;
-}
-
-/* Title Banner */
-.title-banner {
-  background: #ffffff;
-  padding: 1.1rem 2rem 0.5rem;
-  text-align: center;
-}
-
-.form-heading {
-  font-size: 1.85rem;
-  font-weight: 900;
-  color: #0f172a;
-  letter-spacing: -0.5px;
-}
-
-/* Booking Form Body */
-.booking-form {
-  padding: 1.5rem 2.2rem 2rem;
-}
-
-.form-section {
-  margin-bottom: 1.8rem;
-}
-
-.section-title-row {
-  margin-bottom: 1.1rem;
-}
-
-.section-title {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: #0f172a;
-}
-
-/* Field Rows & Inputs */
-.field-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.field-label-side {
-  width: 80px;
-  text-align: right;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #1e293b;
-  flex-shrink: 0;
-}
-
-.input-wrapper {
-  position: relative;
-  flex: 1;
-}
-
-.input-wrapper.full-width {
-  width: 100%;
-}
-
-.phone-dual-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-  flex: 1;
-}
-
-/* Form inputs matching screenshot */
-.form-input,
-.form-textarea {
-  width: 100%;
-  background: #ffffff;
-  border: 1.6px solid #94a3b8;
-  border-radius: 12px;
-  padding: 0.75rem 2.5rem 0.75rem 1rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #0f172a;
-  transition: var(--transition);
-  outline: none;
-}
-
-.form-input:focus,
-.form-textarea:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3.5px rgba(20, 77, 130, 0.15);
-}
-
-.form-input.is-invalid {
-  border-color: #ef4444;
-  background-color: #fff5f5;
-}
-
-/* Floating labels */
-.floating-label {
-  position: absolute;
-  right: 2.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #94a3b8;
-  font-size: 0.95rem;
-  font-weight: 500;
-  pointer-events: none;
-  transition: var(--transition);
-}
-
-.form-input:focus ~ .floating-label,
-.form-input:not(:placeholder-shown) ~ .floating-label,
-.floating-label.active-static {
-  top: -9px;
-  right: 14px;
-  transform: none;
-  font-size: 0.78rem;
-  font-weight: 700;
-  background: #ffffff;
-  padding: 0 6px;
-  color: var(--primary-color);
-  border-radius: 4px;
-}
-
-.field-icon {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #64748b;
-  display: flex;
-  align-items: center;
-  pointer-events: none;
-}
-
-.field-icon svg {
-  width: 18px;
-  height: 18px;
-}
-
-.form-input:focus ~ .field-icon {
-  color: var(--primary-color);
-}
-
-/* Services checkboxes */
-.services-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
-}
-
-.service-checkbox-card {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.65rem 1rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: var(--transition);
-  background: #f8fafc;
-  border: 1.5px solid transparent;
-  user-select: none;
-}
-
-.service-checkbox-card:hover {
-  background: #f1f5f9;
-}
-
-.service-checkbox-card input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.custom-checkbox {
-  width: 26px;
-  height: 26px;
-  border: 2px solid #94a3b8;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  color: #ffffff;
-  transition: var(--transition);
-  flex-shrink: 0;
-}
-
-.custom-checkbox svg {
-  width: 18px;
-  height: 18px;
-  stroke-width: 3;
-}
-
-.service-checkbox-card input[type="checkbox"]:checked ~ .custom-checkbox {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
-}
-
-.service-checkbox-card input[type="checkbox"]:checked {
-  background: rgba(20, 77, 130, 0.05);
-}
-
-.service-text {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #0f172a;
-  flex: 1;
-}
-
-.service-tag {
-  font-size: 0.8rem;
-  color: #64748b;
-  font-family: sans-serif;
-  background: #e2e8f0;
-  padding: 0.2rem 0.55rem;
-  border-radius: 6px;
-}
-
-.notes-field-wrap {
-  margin-top: 0.75rem;
-}
-
-.form-textarea {
-  padding: 0.75rem 1rem;
-  resize: vertical;
-  min-height: 70px;
+@media (max-width: 540px) {
+  .flyer-header {
+    padding: 1.2rem 1.2rem 0.4rem;
+  }
+  
+  .flyer-title-ar {
+    font-size: 1.45rem;
+  }
+  
+  .flyer-subtitle-ar {
+    font-size: 1.15rem;
+  }
+  
+  .flyer-logo-holder {
+    width: 80px;
+    height: 70px;
+  }
+  
+  .flyer-banner-heading {
+    font-size: 1.6rem;
+  }
+  
+  .flyer-form-body {
+    padding: 1.1rem 1.2rem 1rem;
+  }
+  
+  .flyer-field-row {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 0.3rem;
+  }
+  
+  .flyer-field-label {
+    width: 100%;
+    font-size: 1.3rem;
+  }
+  
+  .flyer-phone-dual-wrapper {
+    grid-template-columns: 1fr;
+  }
+  
+  .flyer-services-row-top {
+    gap: 0.5rem;
+  }
+  
+  .flyer-check-text {
+    font-size: 1.15rem;
+  }
+  
+  .flyer-footer-card {
+    margin: 0.8rem 1.2rem 1.2rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  .flyer-footer-address {
+    font-size: 1.05rem;
+  }
+  
+  .flyer-footer-phones {
+    font-size: 1.25rem;
+  }
 }
 
 /* WhatsApp Target Banner */

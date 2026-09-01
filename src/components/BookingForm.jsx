@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { 
-  User, 
-  Phone, 
-  PhoneCall, 
-  MapPin, 
-  Calendar, 
   Check, 
-  MessageCircle, 
-  Send 
+  Send,
+  Sparkles,
+  PhoneCall,
+  MapPin
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-const TARGET_WHATSAPP_NUMBER = '923431982051'; // Owner's WhatsApp number: +923431982051
+const TARGET_WHATSAPP_NUMBER = '923431982051'; // WhatsApp number: +923431982051
 const TEXTMEBOT_API_KEY = 'XkQfa6axBECn'; // TextMeBot API Key
 
 export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
@@ -20,16 +17,15 @@ export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
     custPhone1: '',
     custPhone2: '',
     custAddress: '',
-    appointmentDate: '',
     notes: '',
   });
 
   const [services, setServices] = useState({
-    indoorStairs: true,    // درج داخلي (checked in screenshot)
-    outdoorStairs: false,   // درج خارجي
-    balconies: false,       // بلكونات
-    showerBox: false,       // شاور بوكس
-    canopies: false,        // مظلات
+    honorStairs: false,   // درج شرفي
+    serviceStairs: false, // درج خدمي
+    balconies: false,     // بلكونات
+    canopies: false,      // مظلات
+    showerBox: false,     // شاور بوكس
   });
 
   const [errors, setErrors] = useState({});
@@ -49,11 +45,11 @@ export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
 
   const getSelectedServicesList = () => {
     const list = [];
-    if (services.indoorStairs) list.push('درج داخلي');
-    if (services.outdoorStairs) list.push('درج خارجي');
+    if (services.honorStairs) list.push('درج شرفي');
+    if (services.serviceStairs) list.push('درج خدمي');
     if (services.balconies) list.push('بلكونات');
-    if (services.showerBox) list.push('شاور بوكس');
     if (services.canopies) list.push('مظلات');
+    if (services.showerBox) list.push('شاور بوكس');
     return list;
   };
 
@@ -80,14 +76,12 @@ export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
     let messageText = `✨ *طلب حجز موعد رفع مقاسات جديد* ✨\n`;
     messageText += `━━━━━━━━━━━━━━━━━\n`;
     messageText += `👤 *الاسم:* ${formData.custName.trim()}\n`;
-    messageText += `📱 *رقم الموبايل 1:* ${formData.custPhone1.trim()}\n`;
+    messageText += `📱 *الموبايل:* ${formData.custPhone1.trim()}\n`;
     if (formData.custPhone2.trim()) {
-      messageText += `📱 *رقم الموبايل 2:* ${formData.custPhone2.trim()}\n`;
+      messageText += `📱 *موبايل إضافي:* ${formData.custPhone2.trim()}\n`;
     }
     messageText += `📍 *العنوان:* ${formData.custAddress.trim()}\n`;
-    if (formData.appointmentDate) {
-      messageText += `📅 *الموعد المفضل:* ${formData.appointmentDate}\n`;
-    }
+    
     messageText += `\n🛠️ *الخدمات المطلوبة:*\n`;
     if (selectedServices.length > 0) {
       selectedServices.forEach((srv) => {
@@ -98,26 +92,26 @@ export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
     }
 
     if (formData.notes.trim()) {
-      messageText += `\n📝 *ملاحظات إضافية:* ${formData.notes.trim()}\n`;
+      messageText += `\n📝 *ملاحظات:* ${formData.notes.trim()}\n`;
     }
 
-    messageText += `\n⏰ *تاريخ الطلب:* ${new Date().toLocaleString('ar-KW', { dateStyle: 'short', timeStyle: 'short' })}\n`;
+    messageText += `\n⏰ *التاريخ:* ${new Date().toLocaleString('ar-KW', { dateStyle: 'short', timeStyle: 'short' })}\n`;
     messageText += `━━━━━━━━━━━━━━━━━\n`;
     messageText += `*شركة التل الدولية للتجارة العامة*`;
 
-    // Confetti effect
+    // Confetti celebration effect
     try {
       confetti({
-        particleCount: 60,
-        spread: 70,
-        origin: { y: 0.7 },
-        colors: ['#25d366', '#144d82', '#c29d47']
+        particleCount: 70,
+        spread: 80,
+        origin: { y: 0.65 },
+        colors: ['#25d366', '#144d82', '#000000', '#c29d47']
       });
     } catch {
       // ignore
     }
 
-    // Save to local history
+    // Save submission locally
     const submissionRecord = {
       id: Date.now(),
       timestamp: new Date().toISOString(),
@@ -126,7 +120,6 @@ export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
       phone1: formData.custPhone1.trim(),
       phone2: formData.custPhone2.trim(),
       address: formData.custAddress.trim(),
-      appointmentDate: formData.appointmentDate,
       services: selectedServices,
       notes: formData.notes.trim(),
       rawMessage: messageText
@@ -136,7 +129,7 @@ export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
     existingHistory.unshift(submissionRecord);
     localStorage.setItem('altall_submissions', JSON.stringify(existingHistory.slice(0, 100)));
 
-    // Send in background via TextMeBot WhatsApp API directly to owner
+    // Send in background via TextMeBot WhatsApp API
     const encodedMessage = encodeURIComponent(messageText);
     const textMeBotUrl = `https://api.textmebot.com/send.php?recipient=+${TARGET_WHATSAPP_NUMBER}&apikey=${TEXTMEBOT_API_KEY}&text=${encodedMessage}`;
     
@@ -145,22 +138,12 @@ export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
       const img = new Image();
       img.src = textMeBotUrl;
     } catch {
-      // ignore background fetch errors
+      // ignore
     }
 
     setIsSubmitting(false);
 
-    // Reset form fields
-    setFormData({
-      custName: '',
-      custPhone1: '',
-      custPhone2: '',
-      custAddress: '',
-      appointmentDate: '',
-      notes: '',
-    });
-
-    // Trigger modal for user confirmation
+    // Trigger modal for user WhatsApp action
     if (onFormSubmitSuccess) {
       onFormSubmitSuccess({
         record: submissionRecord,
@@ -170,269 +153,226 @@ export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
   };
 
   return (
-    <div className="form-device-container view-container">
-      <div className="form-card">
+    <div className="flyer-page-wrapper">
+      <div className="flyer-container">
         
-        {/* Header Area matching Screenshot */}
-        <header className="form-header">
-          <div className="header-content">
-            <div className="header-text-block">
-              <h1 className="company-title">شركة التل الدولية للتجارة العامة</h1>
-              <p className="company-tagline">دقة في التنفيذ • جودة في الأداء</p>
+        {/* Top Header matching exact screenshot */}
+        <header className="flyer-header">
+          <div className="flyer-header-row">
+            {/* Official Spiral Logo on LEFT (first in RTL = left side) */}
+            <div className="flyer-logo-holder">
+              <img 
+                src="/altal_logo_clean.png" 
+                alt="شركة التل الدولية - ALTAL ALDAWLYA CO." 
+                className="flyer-official-logo"
+              />
             </div>
-            <div className="logo-box">
-              <img src="/logo.svg" alt="Al Tall Logo" className="brand-logo" />
+
+            {/* Arabic Company Name on RIGHT */}
+            <div className="flyer-company-text">
+              <h1 className="flyer-title-ar">شـركـة الـــتـــل الـــدولـــيــة</h1>
+              <h2 className="flyer-subtitle-ar">للتجارة العامة</h2>
             </div>
           </div>
-          
-          {/* Grey Separator Bar from screenshot */}
-          <div className="separator-bar">
-            <span className="separator-label">شعار</span>
-          </div>
-          
-          {/* Main Title Banner */}
-          <div className="title-banner">
-            <h2 className="form-heading">حجز موعد رفع مقاسات</h2>
+
+          {/* Title Banner */}
+          <div className="flyer-title-banner">
+            <h2 className="flyer-banner-heading">حجز موعد رفع مقاسات</h2>
           </div>
         </header>
 
-        {/* Form Element */}
-        <form id="bookingForm" className="booking-form" onSubmit={handleSubmit} noValidate>
+        {/* Form Body */}
+        <form id="altalBookingForm" className="flyer-form-body" onSubmit={handleSubmit} noValidate>
           
-          {/* Section 1: Customer Details (بيانات العميل) */}
-          <div className="form-section">
-            <div className="section-title-row">
-              <h3 className="section-title">بيانات العميل</h3>
+          {/* Section: Customer Info (بيانات العميل -:) */}
+          <div className="flyer-section-block">
+            <div className="flyer-section-header">
+              <h3 className="flyer-section-title">بيانات العميل -:</h3>
             </div>
-            
-            {/* Name Input */}
-            <div className="field-row">
-              <div className="input-wrapper full-width">
+
+            {/* Row 1: Name (الإسم) */}
+            <div className="flyer-field-row">
+              <div className="flyer-input-pill-wrapper">
                 <input 
                   type="text" 
                   id="custName" 
                   name="custName" 
-                  className={`form-input ${errors.custName ? 'is-invalid' : ''}`}
-                  placeholder=" " 
+                  className={`flyer-pill-input ${errors.custName ? 'has-error' : ''}`}
+                  placeholder="اكتب الإسم بالكامل" 
                   value={formData.custName}
                   onChange={handleInputChange}
                   required 
                   autoComplete="name"
                 />
-                <label htmlFor="custName" className="floating-label">الإسم الكامل</label>
-                <span className="field-icon"><User size={18} /></span>
               </div>
-              <div className="field-label-side">الإسم</div>
+              <label htmlFor="custName" className="flyer-field-label">الإسم</label>
             </div>
 
-            {/* Phone Inputs (2 side-by-side inputs as in screenshot) */}
-            <div className="field-row">
-              <div className="phone-dual-grid">
-                <div className="input-wrapper">
-                  <input 
-                    type="tel" 
-                    id="custPhone1" 
-                    name="custPhone1" 
-                    className={`form-input ${errors.custPhone1 ? 'is-invalid' : ''}`}
-                    placeholder=" " 
-                    value={formData.custPhone1}
-                    onChange={handleInputChange}
-                    required 
-                    autoComplete="tel" 
-                    dir="ltr"
-                  />
-                  <label htmlFor="custPhone1" className="floating-label">رقم الموبايل الأساسي</label>
-                  <span className="field-icon"><Phone size={18} /></span>
-                </div>
-                <div className="input-wrapper">
-                  <input 
-                    type="tel" 
-                    id="custPhone2" 
-                    name="custPhone2" 
-                    className="form-input" 
-                    placeholder=" " 
-                    value={formData.custPhone2}
-                    onChange={handleInputChange}
-                    autoComplete="tel" 
-                    dir="ltr"
-                  />
-                  <label htmlFor="custPhone2" className="floating-label">موبايل إضافي (اختياري)</label>
-                  <span className="field-icon"><PhoneCall size={18} /></span>
-                </div>
-              </div>
-              <div className="field-label-side">الموبايل</div>
-            </div>
-
-            {/* Address Input */}
-            <div className="field-row">
-              <div className="input-wrapper full-width">
+            {/* Row 2: Mobile (الموبايل) - Two pills side by side */}
+            <div className="flyer-field-row">
+              <div className="flyer-phone-dual-wrapper">
                 <input 
-                  type="text" 
+                  type="tel" 
+                  id="custPhone1" 
+                  name="custPhone1" 
+                  className={`flyer-pill-input phone-input ${errors.custPhone1 ? 'has-error' : ''}`}
+                  placeholder="رقم الموبايل الأساسي" 
+                  value={formData.custPhone1}
+                  onChange={handleInputChange}
+                  required 
+                  autoComplete="tel"
+                  dir="rtl"
+                />
+                <input 
+                  type="tel" 
+                  id="custPhone2" 
+                  name="custPhone2" 
+                  className="flyer-pill-input phone-input"
+                  placeholder="موبايل آخر (اختياري)" 
+                  value={formData.custPhone2}
+                  onChange={handleInputChange}
+                  autoComplete="tel"
+                  dir="rtl"
+                />
+              </div>
+              <label htmlFor="custPhone1" className="flyer-field-label">الموبايل</label>
+            </div>
+
+            {/* Row 3: Address (العنوان) */}
+            <div className="flyer-field-row align-top">
+              <div className="flyer-address-wrapper">
+                <textarea 
                   id="custAddress" 
                   name="custAddress" 
-                  className={`form-input ${errors.custAddress ? 'is-invalid' : ''}`}
-                  placeholder=" " 
+                  className={`flyer-address-input ${errors.custAddress ? 'has-error' : ''}`}
+                  placeholder="المنطقة - القطعة - الشارع - رقم المنزل..." 
                   value={formData.custAddress}
                   onChange={handleInputChange}
+                  rows="2"
                   required 
                   autoComplete="street-address"
                 />
-                <label htmlFor="custAddress" className="floating-label">المنطقة - القطعة - الشارع - رقم المنزل</label>
-                <span className="field-icon"><MapPin size={18} /></span>
               </div>
-              <div className="field-label-side">العنوان</div>
-            </div>
-
-            {/* Optional Appointment Date */}
-            <div className="field-row">
-              <div className="input-wrapper full-width">
-                <input 
-                  type="date" 
-                  id="appointmentDate" 
-                  name="appointmentDate" 
-                  className="form-input"
-                  value={formData.appointmentDate}
-                  onChange={handleInputChange}
-                />
-                <label htmlFor="appointmentDate" className="floating-label active-static">الموعد المفضل لرفع المقاسات (اختياري)</label>
-                <span className="field-icon"><Calendar size={18} /></span>
-              </div>
-              <div className="field-label-side">الموعد</div>
+              <label htmlFor="custAddress" className="flyer-field-label">العنوان</label>
             </div>
           </div>
 
-          {/* Section 2: Requested Services (الخدمات المطلوبة) */}
-          <div className="form-section services-section">
-            <div className="section-title-row">
-              <h3 className="section-title">الخدمات المطلوبة</h3>
-            </div>
+          {/* Section: Requested Services (الخدمات المطلوبة) */}
+          <div className="flyer-services-block">
+            <h3 className="flyer-services-title">الخدمات المطلوبة</h3>
 
-            <div className="services-list" id="servicesList">
+            {/* Row 1: 4 Services (درج شرفي, درج خدمي, بلكونات, مظلات) */}
+            <div className="flyer-services-row-top">
               
-              <label className="service-checkbox-card" htmlFor="srv-indoor-stairs">
+              <label className={`flyer-checkbox-item ${services.honorStairs ? 'is-selected' : ''}`} htmlFor="srv-honor">
                 <input 
                   type="checkbox" 
-                  id="srv-indoor-stairs" 
-                  checked={services.indoorStairs}
-                  onChange={() => handleServiceToggle('indoorStairs')}
+                  id="srv-honor" 
+                  checked={services.honorStairs}
+                  onChange={() => handleServiceToggle('honorStairs')}
                 />
-                <span className="custom-checkbox">
-                  {services.indoorStairs && <Check size={18} />}
+                <span className="flyer-square-check">
+                  {services.honorStairs && <Check size={18} strokeWidth={3.5} />}
                 </span>
-                <span className="service-text">درج داخلي</span>
-                <span className="service-tag">Indoor Stairs</span>
+                <span className="flyer-check-text">درج شرفي</span>
               </label>
 
-              <label className="service-checkbox-card" htmlFor="srv-outdoor-stairs">
+              <label className={`flyer-checkbox-item ${services.serviceStairs ? 'is-selected' : ''}`} htmlFor="srv-service">
                 <input 
                   type="checkbox" 
-                  id="srv-outdoor-stairs" 
-                  checked={services.outdoorStairs}
-                  onChange={() => handleServiceToggle('outdoorStairs')}
+                  id="srv-service" 
+                  checked={services.serviceStairs}
+                  onChange={() => handleServiceToggle('serviceStairs')}
                 />
-                <span className="custom-checkbox">
-                  {services.outdoorStairs && <Check size={18} />}
+                <span className="flyer-square-check">
+                  {services.serviceStairs && <Check size={18} strokeWidth={3.5} />}
                 </span>
-                <span className="service-text">درج خارجي</span>
-                <span className="service-tag">Outdoor Stairs</span>
+                <span className="flyer-check-text">درج خدمي</span>
               </label>
 
-              <label className="service-checkbox-card" htmlFor="srv-balconies">
+              <label className={`flyer-checkbox-item ${services.balconies ? 'is-selected' : ''}`} htmlFor="srv-balconies">
                 <input 
                   type="checkbox" 
                   id="srv-balconies" 
                   checked={services.balconies}
                   onChange={() => handleServiceToggle('balconies')}
                 />
-                <span className="custom-checkbox">
-                  {services.balconies && <Check size={18} />}
+                <span className="flyer-square-check">
+                  {services.balconies && <Check size={18} strokeWidth={3.5} />}
                 </span>
-                <span className="service-text">بلكونات</span>
-                <span className="service-tag">Balconies / Railings</span>
+                <span className="flyer-check-text">بلكونات</span>
               </label>
 
-              <label className="service-checkbox-card" htmlFor="srv-shower-box">
-                <input 
-                  type="checkbox" 
-                  id="srv-shower-box" 
-                  checked={services.showerBox}
-                  onChange={() => handleServiceToggle('showerBox')}
-                />
-                <span className="custom-checkbox">
-                  {services.showerBox && <Check size={18} />}
-                </span>
-                <span className="service-text">شاور بوكس</span>
-                <span className="service-tag">Shower Box</span>
-              </label>
-
-              <label className="service-checkbox-card" htmlFor="srv-canopies">
+              <label className={`flyer-checkbox-item ${services.canopies ? 'is-selected' : ''}`} htmlFor="srv-canopies">
                 <input 
                   type="checkbox" 
                   id="srv-canopies" 
                   checked={services.canopies}
                   onChange={() => handleServiceToggle('canopies')}
                 />
-                <span className="custom-checkbox">
-                  {services.canopies && <Check size={18} />}
+                <span className="flyer-square-check">
+                  {services.canopies && <Check size={18} strokeWidth={3.5} />}
                 </span>
-                <span className="service-text">مظلات</span>
-                <span className="service-tag">Canopies / Pergolas</span>
+                <span className="flyer-check-text">مظلات</span>
               </label>
 
             </div>
 
-            {/* Notes / Custom Request */}
-            <div className="notes-field-wrap">
-              <textarea 
-                id="notes" 
-                name="notes" 
-                className="form-textarea" 
-                rows="2" 
-                placeholder="ملاحظات أو تفاصيل إضافية عن العمل المطلوب..."
+            {/* Row 2: 1 Service Centered (شاور بوكس) */}
+            <div className="flyer-services-row-bottom">
+              <label className={`flyer-checkbox-item ${services.showerBox ? 'is-selected' : ''}`} htmlFor="srv-shower">
+                <input 
+                  type="checkbox" 
+                  id="srv-shower" 
+                  checked={services.showerBox}
+                  onChange={() => handleServiceToggle('showerBox')}
+                />
+                <span className="flyer-square-check">
+                  {services.showerBox && <Check size={18} strokeWidth={3.5} />}
+                </span>
+                <span className="flyer-check-text">شاور بوكس</span>
+              </label>
+            </div>
+
+            {/* Optional Notes */}
+            <div className="flyer-notes-wrap">
+              <input
+                type="text"
+                id="notes"
+                name="notes"
+                className="flyer-notes-input"
+                placeholder="ملاحظات أو مواصفات خاصة (اختياري)..."
                 value={formData.notes}
                 onChange={handleInputChange}
-              ></textarea>
+              />
             </div>
+
           </div>
 
-          {/* Submit Button */}
-          <div className="submit-container">
+          {/* WhatsApp Submit Button */}
+          <div className="flyer-submit-area">
             <button 
               type="submit" 
               id="submitBtn" 
-              className="whatsapp-submit-btn"
+              className="flyer-whatsapp-btn"
               disabled={isSubmitting}
             >
-              <span className="btn-icon">
-                <Send size={22} />
-              </span>
-              <span className="btn-text">{isSubmitting ? 'جاري إرسال الطلب...' : 'إرسال طلب حجز المقاسات'}</span>
+              <Send size={20} className="flyer-btn-icon" />
+              <span>{isSubmitting ? 'جاري تجهيز الطلب...' : 'إرسال طلب حجز المقاسات'}</span>
             </button>
           </div>
 
         </form>
 
-        {/* Footer Box (Exact replica of screenshot contact box) */}
-        <footer className="form-footer-box">
-          <div className="footer-inner-card">
-            <div className="address-text">
-              <MapPin size={20} className="footer-icon" />
-              <span>حولي - شارع تونس - مجمع الرحاب - الدور الأول - مكتب 3</span>
-            </div>
-            <div className="phones-text" dir="ltr">
-              <a href="tel:90008278" className="phone-link">90008278</a>
-              <span className="phone-sep">-</span>
-              <a href="tel:51503952" className="phone-link">51503952</a>
-            </div>
+        {/* Footer Contact Floating Card matching screenshot */}
+        <footer className="flyer-footer-card">
+          <div className="flyer-footer-address">
+            حولي - شارع تونس - مجمع الرحاب - الدور الاول - مكتب ٣
           </div>
-
-          {/* Copyright bar */}
-          <div className="copyright-bar">
-            <p>
-              Copyright &copy; Al Tall In. All | {' '}
-              <a href="#qr" onClick={(e) => { e.preventDefault(); onNavigate('qr-generator'); }}>QR Code</a> | {' '}
-              <a href={`https://wa.me/${TARGET_WHATSAPP_NUMBER}`} target="_blank" rel="noreferrer">Contact Us</a>
-            </p>
+          <div className="flyer-footer-phones" dir="ltr">
+            <a href="tel:51503952" className="flyer-tel-link">51503952</a>
+            <span className="flyer-tel-divider">-</span>
+            <a href="tel:90008278" className="flyer-tel-link">90008278</a>
           </div>
         </footer>
 
