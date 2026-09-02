@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-const TARGET_WHATSAPP_NUMBER = '923431982051'; // WhatsApp number: +923431982051
+const TARGET_WHATSAPP_NUMBER = '+96550266484'; // WhatsApp number: +923431982051
 const TEXTMEBOT_API_KEY = 'XkQfa6axBECn'; // TextMeBot API Key
 
 export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
