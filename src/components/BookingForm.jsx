@@ -65,6 +65,7 @@ export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
     if (!validateForm()) {
       return;
     }
@@ -129,14 +130,12 @@ export default function BookingForm({ onFormSubmitSuccess, onNavigate }) {
     existingHistory.unshift(submissionRecord);
     localStorage.setItem('altall_submissions', JSON.stringify(existingHistory.slice(0, 100)));
 
-    // Send in background via TextMeBot WhatsApp API
+    // Send in background via TextMeBot WhatsApp API (single request)
     const encodedMessage = encodeURIComponent(messageText);
     const textMeBotUrl = `https://api.textmebot.com/send.php?recipient=+${TARGET_WHATSAPP_NUMBER}&apikey=${TEXTMEBOT_API_KEY}&text=${encodedMessage}`;
     
     try {
-      fetch(textMeBotUrl, { mode: 'no-cors' }).catch(() => {});
-      const img = new Image();
-      img.src = textMeBotUrl;
+      await fetch(textMeBotUrl, { mode: 'no-cors' });
     } catch {
       // ignore
     }
